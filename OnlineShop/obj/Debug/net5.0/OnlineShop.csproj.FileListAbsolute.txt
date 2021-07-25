@@ -1,0 +1,16 @@
+D:\Projects\OnlineShop\OnlineShop\bin\Debug\net5.0\OnlineShop.exe
+D:\Projects\OnlineShop\OnlineShop\bin\Debug\net5.0\OnlineShop.deps.json
+D:\Projects\OnlineShop\OnlineShop\bin\Debug\net5.0\OnlineShop.runtimeconfig.json
+D:\Projects\OnlineShop\OnlineShop\bin\Debug\net5.0\OnlineShop.runtimeconfig.dev.json
+D:\Projects\OnlineShop\OnlineShop\bin\Debug\net5.0\OnlineShop.dll
+D:\Projects\OnlineShop\OnlineShop\bin\Debug\net5.0\ref\OnlineShop.dll
+D:\Projects\OnlineShop\OnlineShop\bin\Debug\net5.0\OnlineShop.pdb
+D:\Projects\OnlineShop\OnlineShop\obj\Debug\net5.0\OnlineShop.csprojAssemblyReference.cache
+D:\Projects\OnlineShop\OnlineShop\obj\Debug\net5.0\OnlineShop.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\OnlineShop\OnlineShop\obj\Debug\net5.0\OnlineShop.AssemblyInfoInputs.cache
+D:\Projects\OnlineShop\OnlineShop\obj\Debug\net5.0\OnlineShop.AssemblyInfo.cs
+D:\Projects\OnlineShop\OnlineShop\obj\Debug\net5.0\OnlineShop.csproj.CoreCompileInputs.cache
+D:\Projects\OnlineShop\OnlineShop\obj\Debug\net5.0\OnlineShop.dll
+D:\Projects\OnlineShop\OnlineShop\obj\Debug\net5.0\ref\OnlineShop.dll
+D:\Projects\OnlineShop\OnlineShop\obj\Debug\net5.0\OnlineShop.pdb
+D:\Projects\OnlineShop\OnlineShop\obj\Debug\net5.0\OnlineShop.genruntimeconfig.cache
