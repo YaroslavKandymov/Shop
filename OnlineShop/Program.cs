@@ -30,21 +30,16 @@ namespace OnlineShop
         }
     }
 
-    public class Good
+    public interface IReaderCell
     {
-        public string Name { get; private set; }
-
-        public Good(string name)
-        {
-            Name = name;
-        }
+        IReadOnlyList<IReadOnlyCell> Cells { get; }
     }
 
-    public class Warehouse
+    public abstract class Storage
     {
-        private List<Cell> _cells;
+        protected List<Cell> _cells;
 
-        public Warehouse()
+        public Storage()
         {
             _cells = new List<Cell>();
         }
@@ -53,31 +48,36 @@ namespace OnlineShop
         {
             Cell newCell = new Cell(good, count);
 
-            Cell cell = _cells.FirstOrDefault(cell => cell.Good == good);
+            Cell cell = _cells.FirstOrDefault(c => c.Good == good);
 
             if (cell == null)
                 _cells.Add(newCell);
             else
                 cell.Merge(newCell);
         }
+    }
+
+    public class Warehouse : Storage, IReaderCell
+    {
+        public IReadOnlyList<IReadOnlyCell> Cells => _cells;
 
         public void PickUp(Good good, int count)
         {
-            Cell cell = _cells.FirstOrDefault(cell => cell.Good == good);
+            Cell cell = _cells.FirstOrDefault(c => c.Good == good);
 
-            if (cell == null && count < 0 && cell.Count < count)
+            if (cell == null)
+                throw new ArgumentOutOfRangeException(nameof(cell));
+
+            if (count < 0)
+                throw new ArgumentOutOfRangeException(nameof(count));
+
+            if (cell.Count < count)
                 throw new ArgumentOutOfRangeException("Такого товара нет на складе");
 
             if (cell.Count == count)
                 _cells.Remove(cell);
             else
                 cell.Remove(count);
-        }
-
-        public void ShowAllGoods()
-        {
-            foreach (var cell in _cells)
-                cell.ShowInfo();
         }
     }
 
@@ -101,16 +101,16 @@ namespace OnlineShop
         }
     }
 
-    public class Cart
+    public class Cart : Storage, IReaderCell
     {
-        private readonly List<Cell> _cells;
         private readonly Shop _shop;
 
         public string Paylink { get; private set; } = "Строка";
 
+        public IReadOnlyList<IReadOnlyCell> Cells => _cells;
+
         public Cart()
         {
-            _cells = new List<Cell>();
         }
 
         public Cart(Shop shop)
@@ -123,31 +123,44 @@ namespace OnlineShop
         {
             _shop.PickUpFromWarehouse(good, count);
 
-            Cell newCell = new Cell(good, count);
-
-            Cell cell = _cells.FirstOrDefault(cell => cell.Good == good);
-
-            if (cell == null)
-                _cells.Add(newCell);
-            else
-                cell.Merge(newCell);
+            Deliver(good, count);
         }
 
         public Cart Order()
         {
             return new Cart();
         }
+    }
 
-        public void ShowAllGoods()
+    public class Display
+    {
+        private IReadOnlyList<IReadOnlyCell> _cells;
+
+        public Display(IReaderCell readerCell)
+        {
+            _cells = readerCell.Cells;
+        }
+
+        public void Show()
         {
             foreach (var cell in _cells)
                 cell.ShowInfo();
         }
     }
 
-    public class Cell
+    public interface IReadOnlyCell
+    {
+        int Count { get; }
+
+        Good Good { get; }
+
+        void ShowInfo();
+    }
+
+    public class Cell : IReadOnlyCell
     {
         public int Count { get; private set; }
+
         public Good Good { get; private set; }
 
         public Cell(Good good, int count)
@@ -158,7 +171,7 @@ namespace OnlineShop
 
         public void Merge(Cell newCell)
         {
-            if(newCell.Good != Good)
+            if (newCell.Good != Good)
                 throw new InvalidOperationException();
 
             Count += newCell.Count;
@@ -171,13 +184,23 @@ namespace OnlineShop
 
         public void Remove(int count)
         {
-            if(count < 0)
+            if (count < 0)
                 throw new ArgumentOutOfRangeException();
 
             if (count <= Count)
                 Count -= count;
             else
                 throw new ArgumentOutOfRangeException("На складе недостаточно товара");
+        }
+    }
+
+    public class Good
+    {
+        public string Name { get; private set; }
+
+        public Good(string name)
+        {
+            Name = name;
         }
     }
 }
